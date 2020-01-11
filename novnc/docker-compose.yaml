@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+  novnc:
+    image: novnc:1.0
+    ports:
+      - "${LISTEN}"
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - ./token:${NOVNC}/utils/websockify/token
+    # command: "./launch.sh --listen 6081 --vnc ${HOST}:${PORT}"
+    command: "${NOVNC}/utils/websockify/websockify.py --web ${NOVNC} --token-plugin TokenFile --token-source ${NOVNC}/utils/websockify/token/token ${LISTEN}"
+    networks:
+      novnc_net:
+networks:
+  novnc_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${SUBNET}
