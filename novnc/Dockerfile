@@ -1,18 +1,26 @@
-FROM python:3.7
+FROM python:3.7-alpine
 MAINTAINER taoleilei <taoleilei6176@163.com>
 
-RUN apt-get update
+RUN apk update \
+    && apk add --no-cache ca-certificates \
+    && apk add --no-cache --virtual .build-deps gcc musl-dev \
+    && apk add git
 
-RUN apt-get -y install git build-essential \
-    && pip install numpy
+ENV NOVNC /var/noVNC
 
-RUN cd /var/ \
-    && git clone https://github.com/novnc/noVNC.git \
-    && cd /var/noVNC/utils/ \
-    && git clone https://github.com/novnc/websockify.git
+WORKDIR /var/
 
-RUN chmod +x /var/noVNC/utils -R
+COPY requirements.txt /var/
 
-WORKDIR /var/noVNC/utils/
+RUN pip install --no-cache-dir -r requirements.txt
+
+RUN git clone https://github.com/novnc/noVNC \
+    && git clone https://github.com/novnc/websockify ${NOVNC}/utils/websockify \
+    && chmod +x ${NOVNC}/utils -R
+
+RUN rm -rf /var/cache/apk/* \
+    && apk del .build-deps gcc musl-dev git
+
+WORKDIR ${NOVNC}/utils/
 
 EXPOSE 6080
