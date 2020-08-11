@@ -1,0 +1,18 @@
+version: '3'
+services:
+  updog:
+    image: crstian/updog
+    volumes:
+      - ${DIR}:/uploads
+    ports:
+      - ${PORT}:9090
+    networks: 
+      updog-network: 
+    restart: unless-stopped
+networks:
+  updog-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${SUBNET}

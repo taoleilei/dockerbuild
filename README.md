@@ -1,2 +1,5 @@
 # dockerbuild
-dockerfile
+### dockercloud
+### novnc 
+### www  
+### updog  

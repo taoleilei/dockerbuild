@@ -1,0 +1,83 @@
+version: '3.7'
+services:
+  # redis:
+  #   image: redis:latest
+  #   ports:
+  #     - "6379"
+  #   volumes:
+  #     - redis-data:/data
+  #     - ${CONFIG_DIR}/config/redis/redis.conf:/usr/local/etc/redis/redis.conf
+  #   restart: always
+  #   command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+  #   networks:
+  #     plot-net:
+  # db:
+  #   image: mysql:5.7
+  #   ports:
+  #     - "3306"
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+  #     - MYSQL_DATABASE=${MYSQL_DATABASE}
+  #   volumes:
+  #     - mysql:/var/lib/mysql
+  #     - mysql-backup:/data
+  #     - ${CONFIG_DIR}/config/mysql/conf:/etc/mysql/conf.d
+  #     - ${CONFIG_DIR}/config/mysql/initialdb:/docker-entrypoint-initdb.d
+  #     - /etc/localtime:/etc/localtime
+  #   restart: always
+  #   networks:
+  #     plot-net:
+  app:
+    image: plot:1.0
+    ports:
+      - "8000"
+      # - "${SUPERVISOR_PORT}:9001"
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - ${CODES_DIR}:/var/www
+      - ${CONFIG_DIR}/config:/var/www/config
+      - /mnt/FileServer:/var/www/media
+    # depends_on:
+    #   - redis
+    #   - db
+    command: "supervisord -c /var/www/config/supervisor/supervisord.conf"
+    networks:
+      plot-net:
+  lb:
+    image: haproxy:cloud
+    depends_on: 
+      - app
+    environment: 
+      - ADDITIONAL_SERVICES=www:app
+    volumes: 
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports: 
+      - "1936:1936"
+      # - "80"
+    networks:
+      plot-net:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "${PORT}:8000"
+    volumes:
+      - ${CONFIG_DIR}/config/nginx:/etc/nginx/conf.d
+      - ${CODES_DIR}/static:/var/www/static
+      - ${CODES_DIR}/media:/var/www/media
+    depends_on:
+      - app
+      - lb
+    restart: always
+    networks:
+      plot-net:
+# volumes:
+  # redis-data:
+  # mysql:
+  # mysql-backup:
+networks:
+  plot-net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${SUBNET}

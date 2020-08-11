@@ -1,0 +1,4 @@
+[mysqld]
+max_connections=65535
+wait_timeout=180
+default-time_zone='+8:00'

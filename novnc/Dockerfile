@@ -1,5 +1,5 @@
 FROM python:3.7-alpine
-MAINTAINER taoleilei <taoleilei6176@163.com>
+LABEL maintainer="taoleilei <taoleilei6176@163.com>"
 
 RUN apk update \
     && apk add --no-cache ca-certificates \
