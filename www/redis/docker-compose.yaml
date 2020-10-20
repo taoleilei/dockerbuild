@@ -1,0 +1,19 @@
+version: "3.7"
+services:
+  master:
+    image: redis:latest
+    ports:
+      - "${PORT}:6379"
+    volumes:
+      - redis-data:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    restart: always
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    networks:
+      pxc_net:
+        ipv4_address: ${IPV4}
+volumes:
+  redis-data:
+networks:
+  pxc_net:
+    external: true

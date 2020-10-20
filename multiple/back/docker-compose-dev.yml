@@ -1,0 +1,16 @@
+version: "3.7"
+services:
+  lb:
+    image: haproxy:latest
+    ports:
+      - "4001:8888"
+      - "4002:3306"
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - ./haproxy:/usr/local/etc/haproxy
+    networks:
+      back_tier:
+        ipv4_address: 172.18.0.7
+networks:
+  back_tier:
+    external: true

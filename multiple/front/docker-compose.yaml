@@ -1,0 +1,45 @@
+version: "3.7"
+services:
+  appserver:
+    image: plot:3.8
+    ports:
+      - "8000:8000"
+      - "9001:9001"
+    environment:
+      redis_host: 172.18.0.2
+      redis_port: 6379
+      mysql_host: 172.18.0.7
+      mysql_port: 3306
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /root/media/plot:/var/www
+      - /root/media/FileServer:/var/www/media
+      - ./conf/supervisord.conf:/var/www/conf/supervisord.conf
+    command: "supervisord -c /var/www/conf/supervisord.conf"
+    networks:
+      tier:
+        ipv4_address: 172.19.0.3
+      back_tier:
+        ipv4_address: 172.18.0.6
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./conf/default.conf:/etc/nginx/conf.d/default.conf
+      - /root/media/plot/static:/var/www/static
+      - /root/media/FileServer:/var/www/media
+    restart: always
+    networks:
+      tier:
+        ipv4_address: 172.19.0.2
+networks:
+  back_tier:
+    external: true
+  tier:
+    driver: bridge
+    attachable: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.19.0.0/16

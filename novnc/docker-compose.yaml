@@ -1,9 +1,9 @@
-version: '3.7'
+version: "3.7"
 services:
   novnc:
     image: novnc:latest
     ports:
-      - "${LISTEN}"
+      - "${PUBLISH}:${LISTEN}"
     volumes:
       - /etc/localtime:/etc/localtime
       - ./vnc_tokens:${NOVNC}/utils/websockify/vnc_tokens

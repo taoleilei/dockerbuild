@@ -1,0 +1,43 @@
+version: "3.7"
+services:
+  node2:
+    image: pxc:latest
+    ports:
+      - "23307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: iiecas
+      XTRABACKUP_PASSWORD: iiecas
+      CLUSTER_NAME: pxc-cluster
+      CLUSTER_JOIN: pxc-master
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - db2:/var/lib/mysql
+      - backup:/data
+      - ./conf/mysqld.cnf:/etc/mysql/conf.d/mysqld.cnf
+    networks:
+      back_tier:
+        ipv4_address: 172.18.0.4
+  node3:
+    image: pxc:latest
+    ports:
+      - "23308:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: iiecas
+      XTRABACKUP_PASSWORD: iiecas
+      CLUSTER_NAME: pxc-cluster
+      CLUSTER_JOIN: pxc-master
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - db3:/var/lib/mysql
+      - backup:/data
+      - ./conf/mysqld.cnf:/etc/mysql/conf.d/mysqld.cnf
+    networks:
+      back_tier:
+        ipv4_address: 172.18.0.5
+volumes:
+  db2:
+  db3:
+  backup:
+networks:
+  back_tier:
+    external: true

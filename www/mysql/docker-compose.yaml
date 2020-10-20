@@ -1,0 +1,41 @@
+version: "3.7"
+services:
+  node2:
+    image: pxc:latest
+    ports:
+      - "${NODE2_PORT}:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - XTRABACKUP_PASSWORD=${XTRABACKUP_PASSWORD}
+      - CLUSTER_NAME=${CLUSTER_NAME}
+      - CLUSTER_JOIN=${CLUSTER_JOIN}
+    volumes:
+      - db2:/var/lib/mysql
+      - backup:/data
+      - ./conf/:/etc/mysql/conf.d
+    networks:
+      pxc_net:
+        ipv4_address: ${NODE2_IPV4}
+  node3:
+    image: pxc:latest
+    ports:
+      - "${NODE3_PORT}:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - XTRABACKUP_PASSWORD=${XTRABACKUP_PASSWORD}
+      - CLUSTER_NAME=${CLUSTER_NAME}
+      - CLUSTER_JOIN=${CLUSTER_JOIN}
+    volumes:
+      - db3:/var/lib/mysql
+      - backup:/data
+      - ./conf/:/etc/mysql/conf.d
+    networks:
+      pxc_net:
+        ipv4_address: ${NODE3_IPV4}
+volumes:
+  db2:
+  db3:
+  backup:
+networks:
+  pxc_net:
+    external: true

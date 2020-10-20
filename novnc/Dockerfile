@@ -1,5 +1,7 @@
-FROM python:3.7-alpine
+FROM python:3.8-alpine
 LABEL maintainer="taoleilei <taoleilei6176@163.com>"
+
+RUN echo -e http://mirrors.ustc.edu.cn/alpine/v3.12/main/ > /etc/apk/repositories
 
 RUN apk update \
     && apk add --no-cache ca-certificates \
@@ -12,7 +14,7 @@ WORKDIR /var/
 
 COPY requirements.txt /var/
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt -i https://pypi.douban.com/simple/
 
 RUN git clone https://github.com/novnc/noVNC \
     && git clone https://github.com/novnc/websockify ${NOVNC}/utils/websockify \

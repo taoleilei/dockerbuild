@@ -1,0 +1,28 @@
+version: "3.7"
+services:
+  master:
+    image: pxc:latest
+    ports:
+      - "${PORT}:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - XTRABACKUP_PASSWORD=${XTRABACKUP_PASSWORD}
+      - CLUSTER_NAME=${CLUSTER_NAME}
+    volumes:
+      - db1:/var/lib/mysql
+      - backup:/data
+      - ./conf/:/etc/mysql/conf.d
+      - ./initialdb/:/docker-entrypoint-initdb.d
+    networks:
+      net:
+        ipv4_address: ${IPV4}
+volumes:
+  db1:
+  backup:
+networks:
+  net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${SUBNET}

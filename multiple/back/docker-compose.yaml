@@ -1,0 +1,43 @@
+version: "3.7"
+services:
+  pxc-master:
+    image: pxc:latest
+    ports:
+      - "23306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: iiecas
+      XTRABACKUP_PASSWORD: iiecas
+      CLUSTER_NAME: pxc-cluster
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - db1:/var/lib/mysql
+      - backup:/data
+      - ./conf/mysqld.cnf:/etc/mysql/conf.d/mysqld.cnf
+      - ./docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d
+    networks:
+      tier:
+        ipv4_address: 172.18.0.3
+  redis:
+    image: redis:latest
+    ports:
+      - "26379:6379"
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - redis-data:/data
+      - ./conf/redis.conf:/usr/local/etc/redis/redis.conf
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    networks:
+      tier:
+        ipv4_address: 172.18.0.2
+volumes:
+  db1:
+  backup:
+  redis-data:
+networks:
+  tier:
+    driver: bridge
+    attachable: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.0.0/16

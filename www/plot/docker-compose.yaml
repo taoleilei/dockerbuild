@@ -1,0 +1,49 @@
+version: "3.7"
+services:
+  app:
+    image: plot:3.8
+    ports:
+      # - "8000"
+      - "${SUPERVISOR_PORT}:9001"
+    environment:
+      - redis_host:${REDIS_HOST}
+      - redis_port:${REDIS_PORT}
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - ${CODES_DIR}:/var/www
+      - ./config/supervisor:/var/www/config/supervisor
+      - ${NFS_DIR}:/var/www/media
+    command: "supervisord -c /var/www/config/supervisor/supervisord.conf"
+    networks:
+      pxc_net:
+        ipv4_address: ${APP_IPV4}
+  # lb:
+  #   image: haproxy:cloud
+  #   depends_on:
+  #     - app
+  #   environment:
+  #     - ADDITIONAL_SERVICES=www:app
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   ports:
+  #     - "1936:1936"
+  #     # - "80"
+  #   networks:
+  #     plot-net:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "${PORT}:80"
+    volumes:
+      - ./config/nginx:/etc/nginx/conf.d
+      - ${CODES_DIR}/static:/var/www/static
+      - ${NFS_DIR}:/var/www/media
+    depends_on:
+      - app
+    restart: always
+    networks:
+      pxc_net:
+        ipv4_address: ${NGINX_IPV4}
+networks:
+  pxc_net:
+    external: true

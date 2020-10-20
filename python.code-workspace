@@ -1,16 +1,17 @@
 {
     "folders": [
         {
-            "name": "Docker Builder",
+            "name": "Build",
             "path": "."
-        },
-        {
-            "path": "..\\dockercloud-haproxy-1.6.7"
         }
     ],
     "settings": {
-        "docker.host": "tcp://192.168.119.134:2375",
+        "python.pythonPath": "D:\\venv\\x\\Scripts\\python.exe",
+        // "docker.host": "tcp://192.168.119.134:2375",
         // "docker.tlsVerify": "1",
         // "docker.certPath": "${DOCKER_CERT_PATH}"
+        "code-runner.executorMap": {
+            "python": "D:\\venv\\science\\Scripts\\python.exe",
+        },
     }
 }
