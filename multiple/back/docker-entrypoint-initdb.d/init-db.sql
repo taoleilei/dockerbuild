@@ -2,3 +2,4 @@ CREATE USER 'haproxy'@'%' IDENTIFIED BY '';
 CREATE DATABASE IF NOT EXISTS x DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'iiecas' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
+-- set global log_bin_trust_function_creators=true;

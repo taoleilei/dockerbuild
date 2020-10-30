@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/root/script/www/bin/python",
+    "python.pythonPath": "/root/script/web-sanic/bin/python",
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true
 }

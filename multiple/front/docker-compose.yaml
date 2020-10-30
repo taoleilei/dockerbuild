@@ -14,8 +14,8 @@ services:
       - /etc/localtime:/etc/localtime
       - /root/media/plot:/var/www
       - /root/media/FileServer:/var/www/media
-      - ./conf/supervisord.conf:/var/www/conf/supervisord.conf
-    command: "supervisord -c /var/www/conf/supervisord.conf"
+      - ./conf/supervisord.conf:/var/www/supervisord.conf
+    command: "supervisord -c /var/www/supervisord.conf"
     networks:
       tier:
         # ipv4_address: 172.19.0.3
