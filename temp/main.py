@@ -1,13 +1,23 @@
-from sanic import Sanic
-from sanic.response import json
+# from sanic import Sanic
+# from sanic.response import json
 
-app = Sanic(__file__)
-
-
-@app.route("/")
-async def test(request):
-    return json({"hello": "world"})
+# app = Sanic(__file__)
 
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080)
+# @app.route("/")
+# async def test(request):
+#     return json({"hello": "world"})
+
+
+# if __name__ == "__main__":
+#     app.run(host="0.0.0.0", port=8080)
+
+
+import asyncio
+
+
+async def func():
+    await asyncio.sleep(1)
+
+
+asyncio.run(())

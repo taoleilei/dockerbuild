@@ -18,7 +18,6 @@
 
 
 max_connections=65535
-#thread_cache_size=120
 #back_log=256
 #wait_timeout=180
 #innodb_thread_concurrency=128

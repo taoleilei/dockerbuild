@@ -1,0 +1,7 @@
+django
+mysqlclient
+pymysql
+DBUtils
+uvicorn
+gunicorn
+supervisor
