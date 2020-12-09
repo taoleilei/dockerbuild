@@ -3,15 +3,15 @@ services:
   appserver:
     image: register:3.8
     ports:
-      - "8000:8000"
+      - "8080:8000"
       - "9001:9001"
     environment:
-      mysql_host: 192.168.119.18
+      mysql_host: 192.168.12.10
       mysql_port: 4002
     volumes:
       - /etc/localtime:/etc/localtime
-      - /root/media/competition:/var/www
-      - /root/media/FileServer:/var/www/media
+      - /root/leilei/competition:/var/www
+      - /root/leilei/FileServer:/var/www/media
       - ./conf/supervisord.conf:/var/www/supervisord.conf
     command: "supervisord -c /var/www/supervisord.conf"
     networks:

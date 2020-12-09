@@ -17,22 +17,22 @@ services:
     networks:
       tier:
         ipv4_address: 172.18.0.3
-  redis:
-    image: redis:latest
-    ports:
-      - "26379:6379"
-    volumes:
-      - /etc/localtime:/etc/localtime
-      - redis-data:/data
-      - ./conf/redis.conf:/usr/local/etc/redis/redis.conf
-    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
-    networks:
-      tier:
-        ipv4_address: 172.18.0.2
+  # redis:
+  #   image: redis:latest
+  #   ports:
+  #     - "26379:6379"
+  #   volumes:
+  #     - /etc/localtime:/etc/localtime
+  #     - redis-data:/data
+  #     - ./conf/redis.conf:/usr/local/etc/redis/redis.conf
+  #   command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+  #   networks:
+  #     tier:
+  #       ipv4_address: 172.18.0.2
 volumes:
   db1:
   backup:
-  redis-data:
+  # redis-data:
 networks:
   tier:
     driver: bridge
