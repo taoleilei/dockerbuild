@@ -6,14 +6,17 @@ services:
       - "8000:8000"
       - "9001:9001"
     environment:
-      redis_host: 192.168.119.18
+      redis_host: 192.168.12.9
       redis_port: 26379
-      mysql_host: 192.168.119.18
+      mysql_host: 192.168.12.9
       mysql_port: 4002
+      mysql_name: test
+      mysql_password: eHw@dF2%
     volumes:
       - /etc/localtime:/etc/localtime
-      - /root/media/plot:/var/www
-      - /root/media/FileServer:/var/www/media
+      - /opt/plot-master:/var/www
+      - /mnt/FileServer:/var/www/media
+      # - /opt/media:/var/www/media
       - ./conf/supervisord.conf:/var/www/supervisord.conf
     command: "supervisord -c /var/www/supervisord.conf"
     networks:

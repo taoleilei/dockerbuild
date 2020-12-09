@@ -7,8 +7,10 @@ services:
     volumes:
       - ./default.conf:/etc/nginx/conf.d/default.conf
       - ./nginx.conf:/etc/nginx/nginx.conf
-      - /root/media/plot/static:/var/www/static
-      - /root/media/FileServer:/var/www/media
+      - /opt/plot-master/static:/var/www/static
+      - /mnt/FileServer:/var/www/media
+      # - /opt/media:/var/www/media
+      - /etc/localtime:/etc/localtime
     restart: always
     networks:
       tier:

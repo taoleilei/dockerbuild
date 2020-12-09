@@ -1,10 +1,12 @@
 #### back
 1. docker-compose -f docker-compose.yaml up -d
-2. docker-compose -f docker-compose-dev.yaml up -d
-3. docker-compose -f docker-compose-dev.yml up -d
+2. docker-compose -f docker-compose-slave.yaml up -d
+3. docker-compose -f docker-compose-lb.yml up -d
+4. docker-compose -f docker-compose-redis.yml up -d
 
 #### front
-1. docker-compose up -d
+##### 主服务执行docker-compose up -d
+##### 从服务执行docker-compose-slave up -d
 
-#### front-slave
+#### proxy
 1. docker-compose up -d
