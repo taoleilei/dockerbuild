@@ -1,7 +1,4 @@
 # -*- coding: UTF-8 -*-
-###################################
-#TODO: 使用密钥将MAC加密
-###################################
 import os
 import sys
 import base64
@@ -18,7 +15,6 @@ AesMode = AES.MODE_CBC  # 使用CBC模式
 
 
 def encrypt(text):
-    # 参考：https://www.cnblogs.com/loleina/p/8418108.html
     cryptor = AES.new(AesKey, AesMode, AesIv)
 
     # padding

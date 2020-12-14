@@ -1,0 +1,54 @@
+# coding:utf-8
+import datetime
+import sys
+
+try:
+    from certificate.verify_license import VerifyLicense
+    License = VerifyLicense()
+    status, flag, deadline = License.get_license_info()
+
+    if status and flag == "Valid":
+        pass
+    else:
+        sys.exit(1)
+except Exception as e:
+    print(e)
+    sys.exit(1)
+
+
+# class Varification:
+#     def __init__(self, fc):
+#         self._func = fc
+#         self.condition = Condition
+#         self.licinfo = LicInfo
+
+#     def __call__(self, *args, **kwargs):
+#         if self.condition and self.licinfo == "Valid":
+#             self._func(*args, **kwargs)
+#         else:
+#             print('未获取权授！')
+
+
+# class Decrator:
+#     def __init__(self, func):
+#         self._func = func
+#         self.condition = Condition
+#         self.licinfo = LicInfo
+
+#     def __get__(self, instance, owner):
+#         '''
+#         instance:代表实例，被装饰的方法中的self
+#         owner：代表类本身，被装饰的类
+#         '''
+#         if self.condition and self.licinfo == "Valid":
+#             self._func(instance)
+#         else:
+#             print('未获取权授！')
+
+
+class Today:
+    def get_time(self):
+        print(datetime.datetime.now())
+
+    def say(self):
+        print(f"{__name__}")
